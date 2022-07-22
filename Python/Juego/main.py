@@ -18,32 +18,37 @@ GREEN_BULLETS = (42, 250, 0)
 RED_BULLETS = (250, 0, 0)
 
 # Frames per second
-FPS = 60
-VEL = 2
+FPS = 40
+VEL = 4
+B_G_VEL = 7
 BULLET_VEL = 5
+
 # Events
 HIT = pygame.USEREVENT + 1
+MAX_BULLETS = 5
 #Sprites (images)
 
 #Draw things in the window
 def Draw(xwing, malos, bullets):
     WIN.fill(WHITE)
     pygame.draw.rect(WIN, RED_BULLETS, xwing)
-    pygame.draw.rect(WIN, GREEN_BULLETS, malos[1])
+    pygame.draw.rect(WIN, GREEN_BULLETS, malos[0])
     for bullet in bullets:
         pygame.draw.rect(WIN, RED_BULLETS, bullet)
 
 def malos_movemnt(malos):
     for malo in malos: 
-        malo.x += 5
+        malo.x += B_G_VEL
         if malo.x >= WIDTH:
-            malo.y += 5
-            malo.x = 0
+            malo.y += 10
+            malo.x = B_G_VEL
 
-def bullet_fire(bullets, xwing):
+def bullet_fire(bullets, xwing, malos):
     for bullet in bullets:
         bullet.y -= BULLET_VEL
         if bullet.y < 0:
+            bullets.remove(bullet)
+        if malos[0].colliderect(bullet):
             bullets.remove(bullet)
 
 def movement(keys_pressed, xwing):
@@ -67,7 +72,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE and len(bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(xwing.x + xwing.width//2 - 1, xwing.y, 2, 7)
                     bullets.append(bullet)
 
@@ -76,11 +81,11 @@ def main():
 
         print(bullets)
         movement(keys_pressed, xwing)
-        for i in range(5):
-            malo = pygame.Rect(0, 0, MALOS_W, MALOS_H)
-            malos.append(malo)
+        # Change malos, make either more spaceships or just a boss
+        malo = pygame.Rect(0, 0, MALOS_W, MALOS_H)
+        malos.append(malo)
         malos_movemnt(malos)
-        bullet_fire(bullets, xwing)
+        bullet_fire(bullets, xwing, malos)
         Draw(xwing, malos, bullets)
 
         pygame.display.update()
