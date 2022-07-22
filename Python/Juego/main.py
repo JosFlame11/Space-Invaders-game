@@ -8,7 +8,6 @@ pygame.font.init() #For the font available in your computer
 # Dimensions
 WIDTH = 500
 HEIGHT = 375
-MALOS_W, MALOS_H = 20, 5
 XWING_W, XWING_H = 50, 40
 DEATHSTAR_W, DEATHSTAR_H = 150, 150
 
@@ -39,18 +38,30 @@ HIT = pygame.USEREVENT + 1
 GET_HIT = pygame.USEREVENT + 2
 MAX_BULLETS = 5
 MAX_LASER = 1
+DEATH_STAR_LIVES = 20
 
 #Sprites (images)
 XWING_MODEL = pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'xwing_model.png'))
 XWING = pygame.transform.scale(XWING_MODEL, (XWING_W, XWING_H))
 DEATH_STAR_MODEL = pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_fullhealt.png'))
 DEATH_STAR_FH = pygame.transform.scale(DEATH_STAR_MODEL, (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit_2.png')), (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT_2 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit.png')), (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT_3 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit_3.png')), (DEATHSTAR_W, DEATHSTAR_H))
 
 #Draw things in the window
 def Draw(xwing, death_star,  bullets, death_rays, death_laser, player_health, death_star_health):
     WIN.blit(pygame.image.load(os.path.join('Space-Invaders-game-master','Space-Invaders-game','StarWars_Images','background.jpeg')), (0,0))
     WIN.blit(XWING, (xwing.x, xwing.y))
-    WIN.blit(DEATH_STAR_FH, (death_star.x, death_star.y))
+
+    for laser in death_laser:
+        pygame.draw.rect(WIN, GREEN_BULLETS, laser, border_radius = 5)
+    
+    if death_star_health < 10:
+        WIN.blit(DEATH_STAR_HIT_3, (death_star.x, death_star.y))
+    else:
+        WIN.blit(DEATH_STAR_FH, (death_star.x, death_star.y))
+
     lives = HEALTH_FONT.render("LIVES: " + str(player_health), 1, YELLOW)
     WIN.blit(lives, (10, HEIGHT - lives.get_width() - 2))
     pygame.draw.rect(WIN, RED_BULLETS, pygame.Rect(10, 10, death_star_health*10, 10), border_radius = 3)
@@ -59,8 +70,6 @@ def Draw(xwing, death_star,  bullets, death_rays, death_laser, player_health, de
         pygame.draw.rect(WIN, RED_BULLETS, bullet, border_radius = 2)
     for ray in death_rays:
         pygame.draw.rect(WIN, GREEN_BULLETS, ray, border_radius = 2)
-    for laser in death_laser:
-        pygame.draw.rect(WIN, GREEN_BULLETS, laser, border_radius = 5)
 
 def malos_movemnt(death_star):
     pos = random.randint(0, WIDTH)
@@ -116,7 +125,7 @@ def main():
     death_rays = []
     death_laser = []
     player_health = 5
-    death_star_health = 20
+    death_star_health = DEATH_STAR_LIVES
 
     clock = pygame.time.Clock()
     run = True
@@ -144,18 +153,18 @@ def main():
             who_won(winner)
             break
 
-
-        print(RAY_CHANCE)
+        # shows the number of getting a ray
+        #print(RAY_CHANCE)
         if RAY_CHANCE == 9:# A bullet from the death star
             ray = pygame.Rect(death_star.x + death_star.width//2 - 2, death_star.bottom, 4, 10)
             death_rays.append(ray)
         elif RAY_CHANCE == 50 and len(death_laser) < MAX_LASER: # A LASER from the death star
-            laser = pygame.Rect(death_star.x + death_star.width//2 - 15, death_star.bottom, 30, HEIGHT - death_star.bottom)
+            laser = pygame.Rect(death_star.x + death_star.width//2 - 15, death_star.top + DEATHSTAR_H//2, 30, HEIGHT - death_star.bottom)
             death_laser.append(laser)
         keys_pressed = pygame.key.get_pressed()#str(arduino.readline().strip()).strip('b')
         #print(keys_pressed)            #Register which number does the arduino reads
 
-        print(bullets)
+        #print(bullets)
         movement(keys_pressed, xwing)
         # Change malos, make either more spaceships or just a boss
         if MOVE_CHANCE == 1 or MOVE_CHANCE == 3:
@@ -168,3 +177,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    
