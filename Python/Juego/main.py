@@ -57,7 +57,7 @@ def Draw(xwing, death_star,  bullets, death_rays, death_laser, player_health, de
     for laser in death_laser:
         pygame.draw.rect(WIN, GREEN_BULLETS, laser, border_radius = 5)
     
-    if death_star_health < 10:
+    if death_star_health <= 10:
         WIN.blit(DEATH_STAR_HIT_3, (death_star.x, death_star.y))
     else:
         WIN.blit(DEATH_STAR_FH, (death_star.x, death_star.y))
@@ -111,6 +111,7 @@ def movement(keys_pressed, xwing):
             xwing.x -= VEL
     if keys_pressed[pygame.K_RIGHT]: #== "'4'": #RIGHT
             xwing.x += VEL
+    
 
 def who_won(winner):
     winner_text = WINNER_FONT.render(winner, 1, RED_TEXT)
@@ -135,8 +136,8 @@ def main():
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
-            if event.type == pygame.KEYDOWN:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:# YOu could comment this lines if you are using an arduino
                 if event.key == pygame.K_SPACE and len(bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(xwing.x + xwing.width//2 - 1, xwing.y, 2, 7)
                     bullets.append(bullet)
@@ -164,6 +165,10 @@ def main():
         keys_pressed = pygame.key.get_pressed()#str(arduino.readline().strip()).strip('b')
         #print(keys_pressed)            #Register which number does the arduino reads
 
+        #if keys_pressed == "'5'": #shoots with arduino
+            #bullet = pygame.Rect(xwing.x + xwing.width//2 - 1, xwing.y, 2, 7)
+            #bullets.append(bullet)
+
         #print(bullets)
         movement(keys_pressed, xwing)
         # Change malos, make either more spaceships or just a boss
@@ -173,9 +178,7 @@ def main():
         Draw(xwing, death_star,bullets, death_rays, death_laser, player_health, death_star_health)
 
         pygame.display.update()
-    pygame.quit()
+    pygame.main()
 
 if __name__ == "__main__":
     main()
-
-    
