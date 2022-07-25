@@ -27,7 +27,7 @@ YELLOW = (247, 229, 89)
 RED_TEXT = (117, 0, 22)
 
 # Frames per second
-FPS = 40
+FPS = 30
 VEL = 4
 B_G_VEL = 10
 BULLET_VEL = 5
@@ -36,22 +36,22 @@ LASER_VEL = 10
 # Events
 HIT = pygame.USEREVENT + 1
 GET_HIT = pygame.USEREVENT + 2
-MAX_BULLETS = 2
+MAX_BULLETS = 4
 MAX_LASER = 1
 DEATH_STAR_LIVES = 20
 
 #Sprites (images)
-XWING_MODEL = pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'xwing_model.png'))
+XWING_MODEL = pygame.image.load(os.path.join('Space-Invaders-game', 'StarWars_Images', 'xwing_model.png'))
 XWING = pygame.transform.scale(XWING_MODEL, (XWING_W, XWING_H))
-DEATH_STAR_MODEL = pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_fullhealt.png'))
+DEATH_STAR_MODEL = pygame.image.load(os.path.join('Space-Invaders-game', 'StarWars_Images', 'death_star_fullhealt.png'))
 DEATH_STAR_FH = pygame.transform.scale(DEATH_STAR_MODEL, (DEATHSTAR_W, DEATHSTAR_H))
-DEATH_STAR_HIT = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit_2.png')), (DEATHSTAR_W, DEATHSTAR_H))
-DEATH_STAR_HIT_2 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit.png')), (DEATHSTAR_W, DEATHSTAR_H))
-DEATH_STAR_HIT_3 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game-master', 'Space-Invaders-game', 'StarWars_Images', 'death_star_hit_3.png')), (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game', 'StarWars_Images', 'death_star_hit_2.png')), (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT_2 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game', 'StarWars_Images', 'death_star_hit.png')), (DEATHSTAR_W, DEATHSTAR_H))
+DEATH_STAR_HIT_3 = pygame.transform.scale(pygame.image.load(os.path.join('Space-Invaders-game', 'StarWars_Images', 'death_star_hit_3.png')), (DEATHSTAR_W, DEATHSTAR_H))
 
 #Draw things in the window
 def Draw(xwing, death_star,  bullets, death_rays, death_laser, player_health, death_star_health):
-    WIN.blit(pygame.image.load(os.path.join('Space-Invaders-game-master','Space-Invaders-game','StarWars_Images','background.jpeg')), (0,0))
+    WIN.blit(pygame.image.load(os.path.join('Space-Invaders-game','StarWars_Images','background.jpeg')), (0,0))
     WIN.blit(XWING, (xwing.x, xwing.y))
 
     for laser in death_laser:
