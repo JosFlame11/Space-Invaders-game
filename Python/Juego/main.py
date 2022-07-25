@@ -1,3 +1,8 @@
+# ROBOTICA 2B
+# LARA PEREZ JOSE ANTONIO
+# AKE AC GABRIEL ALEJANDRO
+#
+# GAME CONTROLLED BY ARDUINO
 import pygame, os, serial, time, random
 pygame.init()
 pygame.font.init() #For the font available in your computer
