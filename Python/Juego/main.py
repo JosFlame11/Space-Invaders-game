@@ -36,7 +36,7 @@ LASER_VEL = 10
 # Events
 HIT = pygame.USEREVENT + 1
 GET_HIT = pygame.USEREVENT + 2
-MAX_BULLETS = 5
+MAX_BULLETS = 2
 MAX_LASER = 1
 DEATH_STAR_LIVES = 20
 
@@ -103,13 +103,13 @@ def bullet_fire(bullets, xwing, death_star, death_rays, death_laser):
     
             
 def movement(keys_pressed, xwing):
-    if keys_pressed[pygame.K_UP] :# == "'1'": #UP
+    if keys_pressed[pygame.K_UP] and xwing.y > 0:# == "'1'": #UP
             xwing.y -= VEL
-    if keys_pressed[pygame.K_DOWN]: #== "'2'": #DOWN
+    if keys_pressed[pygame.K_DOWN] and xwing.y < HEIGHT - XWING_H: #== "'2'": #DOWN
             xwing.y += VEL
-    if keys_pressed[pygame.K_LEFT]: #== "'3'": #LEFT
+    if keys_pressed[pygame.K_LEFT] and xwing.x > 0: #== "'3'": #LEFT
             xwing.x -= VEL
-    if keys_pressed[pygame.K_RIGHT]: #== "'4'": #RIGHT
+    if keys_pressed[pygame.K_RIGHT] and xwing.x < WIDTH - XWING_W: #== "'4'": #RIGHT
             xwing.x += VEL
     
 
@@ -120,7 +120,7 @@ def who_won(winner):
     pygame.time.delay(5000)
 
 def main():
-    xwing = pygame.Rect(WIDTH//2 - XWING_W//2, HEIGHT - XWING_H, XWING_W, XWING_H)
+    xwing = pygame.Rect(WIDTH//2 - XWING_W//2, HEIGHT - XWING_H - 20, XWING_W, XWING_H)
     death_star = pygame.Rect(WIDTH//2 - DEATHSTAR_W//2, 0, DEATHSTAR_H, DEATHSTAR_W)
     bullets = []
     death_rays = []
@@ -178,7 +178,7 @@ def main():
         Draw(xwing, death_star,bullets, death_rays, death_laser, player_health, death_star_health)
 
         pygame.display.update()
-    pygame.main()
+    main()
 
 if __name__ == "__main__":
     main()
